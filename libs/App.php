@@ -1,5 +1,3 @@
-<?php require_once  "../config/config.php" ?>
-
 <?php
 
 class App
@@ -128,10 +126,8 @@ class App
 
     public function validateSession($path) {
         if(isset($_SESSION['id'])) {
-            
+
             header("Location: $path");
         }
     }
 }
-
-$obj = new App();
