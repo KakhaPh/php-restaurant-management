@@ -17,10 +17,11 @@ class App
 
     public function connect()
     {
-        $this->link = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbname, $this->username, $this->password);
-
-        if ($this->link) {
-            echo "Connected to the database successfully";
+        try {
+            $this->link = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbname, $this->username, $this->password);
+            $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Failed to connect to the database: " . $e->getMessage());
         }
     }
 
@@ -55,8 +56,9 @@ class App
     }
 
     // Insert data into the database
-    public function insert($query, $arr, $path) {
-        if($this->validate($arr) == "empty") {
+    public function insert($query, $arr, $path)
+    {
+        if ($this->validate($arr) == "empty") {
             echo "<script>alert('one or more fields are ampty!')</script>";
         } else {
             $insert_record = $this->link->prepare($query);
@@ -67,8 +69,9 @@ class App
     }
 
     // Update data in the database
-    public function update($query, $arr, $path) {
-        if($this->validate($arr) == "empty") {
+    public function update($query, $arr, $path)
+    {
+        if ($this->validate($arr) == "empty") {
             echo "<script>alert('one or more fields are ampty!')</script>";
         } else {
             $update_record = $this->link->prepare($query);
@@ -79,40 +82,44 @@ class App
     }
 
     // Delete data from the database
-    public function delete($query, $path) {
-            $delete_record = $this->link->query($query);
-            $delete_record->execute();
+    public function delete($query, $path)
+    {
+        $delete_record = $this->link->query($query);
+        $delete_record->execute();
 
-            header("Location: $path");
+        header("Location: $path");
     }
 
     // Validate the form
-    public function validate($arr){
-        if(in_array("", $arr)){
+    public function validate($arr)
+    {
+        if (in_array("", $arr)) {
             echo "empty";
         }
     }
 
     // Register a new user
-    public function register($query, $arr, $path) {
-        if($this->validate($arr) == "empty") {
-            echo "<script>alert('one or more fields are ampty!')</script>";
+    public function register($query, $arr, $path)
+    {
+        if ($this->validate($arr) == "empty") {
+            echo "<script>alert('one or more fields are empty!')</script>";
         } else {
-            $insert_record = $this->link->prepare($query);
-            $insert_record->execute($arr);
+            $register_user = $this->link->prepare($query);
+            $register_user->execute($arr);
 
             header("Location: $path");
         }
     }
 
     // Login a user
-    public function login($query, $data, $path) {
+    public function login($query, $data, $path)
+    {
         $login_record = $this->link->prepare($query);
-        $login_record->execute($data);
-        $fetch = $login_record->fetch(PDO::FETCH_OBJ);
+        $login_record->execute();
+        $fetch = $login_record->fetch(PDO::FETCH_ASSOC);
 
-        if($login_record->rowCount() > 0) {
-            if(password_verify($data['password'], $fetch['password'])) {
+        if ($login_record->rowCount() > 0) {
+            if (password_verify($data['password'], $fetch['password'])) {
                 // Start session variables
 
                 header("Location: $path");
@@ -120,12 +127,14 @@ class App
         }
     }
 
-    public function startingSession() {
+    public function startingSession()
+    {
         session_start();
     }
 
-    public function validateSession($path) {
-        if(isset($_SESSION['id'])) {
+    public function validateSession($path)
+    {
+        if (isset($_SESSION['id'])) {
 
             header("Location: $path");
         }
