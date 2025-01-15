@@ -10,5 +10,18 @@
 
         public $link;
 
-        // 
+        // Create a constructor
+        public function __construct() {
+            $this->connect();
+        }
+
+        public function connect() {
+            $this->link = new PDO("mysql:host=".$this->host.";dbname=".$this->dbname, $this->username, $this->password);
+
+            if($this->link) {
+                echo "Connected to the database successfully";
+            }
+        }
     }
+
+    $obj = new App();
