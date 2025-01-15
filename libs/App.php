@@ -17,10 +17,11 @@ class App
 
     public function connect()
     {
-        $this->link = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbname, $this->username, $this->password);
-
-        if ($this->link) {
-            echo "Connected to the database successfully";
+        try {
+            $this->link = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbname, $this->username, $this->password);
+            $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Failed to connect to the database: " . $e->getMessage());
         }
     }
 
@@ -96,10 +97,10 @@ class App
     // Register a new user
     public function register($query, $arr, $path) {
         if($this->validate($arr) == "empty") {
-            echo "<script>alert('one or more fields are ampty!')</script>";
+            echo "<script>alert('one or more fields are empty!')</script>";
         } else {
-            $insert_record = $this->link->prepare($query);
-            $insert_record->execute($arr);
+            $register_user = $this->link->prepare($query);
+            $register_user->execute($arr);
 
             header("Location: $path");
         }
