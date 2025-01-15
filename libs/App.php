@@ -94,6 +94,44 @@ class App
             echo "empty";
         }
     }
+
+    // Register a new user
+    public function register($query, $arr, $path) {
+        if($this->validate($arr) == "empty") {
+            echo "<script>alert('one or more fields are ampty!')</script>";
+        } else {
+            $insert_record = $this->link->prepare($query);
+            $insert_record->execute($arr);
+
+            header("Location: $path");
+        }
+    }
+
+    // Login a user
+    public function login($query, $data, $path) {
+        $login_record = $this->link->prepare($query);
+        $login_record->execute($data);
+        $fetch = $login_record->fetch(PDO::FETCH_OBJ);
+
+        if($login_record->rowCount() > 0) {
+            if(password_verify($data['password'], $fetch['password'])) {
+                // Start session variables
+
+                header("Location: $path");
+            }
+        }
+    }
+
+    public function startingSession() {
+        session_start();
+    }
+
+    public function validateSession($path) {
+        if(isset($_SESSION['id'])) {
+            
+            header("Location: $path");
+        }
+    }
 }
 
 $obj = new App();
