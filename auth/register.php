@@ -1,26 +1,28 @@
-<?php require "../config/config.php";
-require "../libs/App.php";
-require "../includes/header.php";
+<?php 
+    require "../config/config.php";
+    require "../libs/App.php";
+    require "../includes/header.php";
 
-$app = new App;
+    $app = new App;
+    $app->validateSession();
 
-if (isset($_POST['submit'])) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    if (isset($_POST['submit'])) {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $query = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
+        $query = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
 
-    $arr = [
-        'username' => $username,
-        'email' => $email,
-        'password' => $password
-    ];
+        $arr = [
+            'username' => $username,
+            'email' => $email,
+            'password' => $password
+        ];
 
-    $path = "login.php";
+        $path = "login.php";
 
-    $app->register($query, $arr, $path);
-}
+        $app->register($query, $arr, $path);
+    }
 
 ?>
 
