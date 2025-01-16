@@ -1,24 +1,27 @@
-<?php require "../config/config.php";
-require "../libs/App.php";
-require "../includes/header.php";
+<?php 
+    require "../config/config.php";
+    require "../libs/App.php";
+    require "../includes/header.php";
 
-$app = new App;
 
-if (isset($_POST['submit'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $app = new App;
+    $app->validateSession();
 
-    $query = "SELECT * FROM users WHERE email='$email'";
+    if (isset($_POST['submit'])) {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-    $data = [
-        'email' => $email,
-        'password' => $password
-    ];
+        $query = "SELECT * FROM users WHERE email='$email'";
 
-    $path = "/";
+        $data = [
+            'email' => $email,
+            'password' => $password
+        ];
 
-    $app->login($query, $data, $path);
-}
+        $path = "/";
+
+        $app->login($query, $data, $path);
+    }
 
 ?>
 

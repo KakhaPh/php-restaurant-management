@@ -46,7 +46,7 @@ class App
         $row = $this->link->query($query);
         $row->execute();
 
-        $singleRow = $row->fetchAll(PDO::FETCH_ASSOC);
+        $singleRow = $row->fetch(PDO::FETCH_ASSOC);
 
         if ($singleRow) {
             return $singleRow;
@@ -65,6 +65,7 @@ class App
             $insert_record->execute($arr);
 
             header("Location: $path");
+            exit;
         }
     }
 
@@ -78,6 +79,7 @@ class App
             $update_record->execute($arr);
 
             header("Location: $path");
+            exit;
         }
     }
 
@@ -88,6 +90,7 @@ class App
         $delete_record->execute();
 
         header("Location: $path");
+        exit;
     }
 
     // Validate the form
@@ -108,6 +111,7 @@ class App
             $register_user->execute($arr);
 
             header("Location: $path");
+            exit;
         }
     }
 
@@ -126,6 +130,7 @@ class App
                 $_SESSION['user_id'] = $fetch['id'];
 
                 header("Location: $path");
+                exit;
             }
         }
     }
@@ -135,11 +140,10 @@ class App
         session_start();
     }
 
-    public function validateSession($path)
+    public function validateSession()
     {
-        if (isset($_SESSION['id'])) {
-
-            header("Location: $path");
+        if (isset($_SESSION['user_id'])) {
+            echo "<script>window.location.href ='". baseUrl ."'</script>";
         }
     }
 }

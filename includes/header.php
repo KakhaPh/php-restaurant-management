@@ -1,8 +1,9 @@
 <?php
-$app = new App;
-$app->startingSession();
+    $app = new App;
+    $app->startingSession();
+    
+    define("baseUrl", "/");
 
-define("baseUrl", "/");
 ?>
 
 <!DOCTYPE html>
