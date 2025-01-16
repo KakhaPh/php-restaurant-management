@@ -2,7 +2,7 @@
 $app = new App;
 $app->startingSession();
 
-define("baseUrl", "http://localhost/restaurant-management-php/");
+define("baseUrl", "/");
 ?>
 
 <!DOCTYPE html>
@@ -81,12 +81,12 @@ define("baseUrl", "http://localhost/restaurant-management-php/");
                             <div class="dropdown-menu m-0 mx-4">
                                 <a href="booking.html" class="dropdown-item">Booking</a>
                                 <a href="team.html" class="dropdown-item">Our Team</a>
-                                <a href="<?php echo baseUrl?>auth/logout.php" class="dropdown-item">Log out</a>
+                                <a href="<?php echo baseUrl; ?>auth/logout.php" class="dropdown-item">Log out</a>
                             </div>
                         </div>
                         <?php else : ?>
-                        <a href="<?php echo baseUrl?>auth/login.php" class="nav-item nav-link">Login</a>
-                        <a href="<?php echo baseUrl?>auth/register.php" class="nav-item nav-link">Register</a>
+                        <a href="<?php echo baseUrl; ?>auth/login.php" class="nav-item nav-link">Login</a>
+                        <a href="<?php echo baseUrl; ?>auth/register.php" class="nav-item nav-link">Register</a>
                         <?php endif; ?>
                     </div>
                     <a href="" class="btn btn-primary py-2 px-4">Book A Table</a>
