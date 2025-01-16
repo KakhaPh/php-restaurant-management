@@ -46,7 +46,7 @@ class App
         $row = $this->link->query($query);
         $row->execute();
 
-        $singleRow = $row->fetchAll(PDO::FETCH_ASSOC);
+        $singleRow = $row->fetch(PDO::FETCH_ASSOC);
 
         if ($singleRow) {
             return $singleRow;
