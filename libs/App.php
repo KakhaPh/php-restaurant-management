@@ -125,7 +125,7 @@ class App
                 $_SESSION['username'] = $fetch['username'];
                 $_SESSION['user_id'] = $fetch['id'];
 
-                header("Location: " . baseUrl);
+                header("Location: $path");
             }
         }
     }

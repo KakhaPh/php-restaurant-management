@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
         'password' => $password
     ];
 
-    $path = "http://localhost/restaurant-management-php/";
+    $path = "/";
 
     $app->login($query, $data, $path);
 }
