@@ -1,17 +1,43 @@
-<?php 
-    require "../config/config.php";
-    require "../libs/App.php";
-    require "../includes/header.php";
+<?php
+require "../config/config.php";
+require "../libs/App.php";
+require "../includes/header.php";
 
 
-    if(isset($_GET['id'])) {
-        $id = $_GET['id'];
-        $query = "SELECT * FROM foods WHERE id = '$id'";
-        $app = new App;
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $query = "SELECT * FROM foods WHERE id = '$id'";
+    $app = new App;
 
-        $one = $app->selectOne($query);
+    $one = $app->selectOne($query);
+
+    if (isset($_SESSION['user_id'])) {
+        $cartQuery = "SELECT * FROM cart WHERE item_id = '$id' AND user_id = '$_SESSION[user_id]'";
+        $count = $app->validateCart($cartQuery);
     }
 
+    if (isset($_POST['submit'])) {
+        $item_id = $_POST['item_id'];
+        $name = $_POST['name'];
+        $price = $_POST['price'];
+        $image = $_POST['image'];
+        $user_id = $_SESSION['user_id'];
+
+        $query = "INSERT INTO cart (item_id, name, price, image, user_id) VALUES (:item_id, :name, :price, :image, :user_id)";
+
+        $arr = [
+            ':item_id' => $item_id,
+            ':name' => $name,
+            ':price' => $price,
+            ':image' => $image,
+            ':user_id' => $user_id
+        ];
+
+        $path = "cart.php";
+
+        $app->insert($query, $arr, $path);
+    }
+}
 ?>
 
 <div class="container-xxl py-5 bg-dark hero-header mb-5">
@@ -32,7 +58,7 @@
             <div class="col-md-6">
                 <div class="row g-3">
                     <div class="col-12 text-start">
-                        <img src="<?php echo baseUrl . "img/" .$one['image']?>" alt="foodImg" data-wow-delay="0.1s" class="img-fluid rounded w-100 wow-zoomIn">
+                        <img src="<?php echo baseUrl . "img/" . $one['image'] ?>" alt="foodImg" data-wow-delay="0.1s" class="img-fluid rounded w-100 wow-zoomIn">
                     </div>
                 </div>
             </div>
@@ -41,16 +67,21 @@
                 <p class="mb-4"><?php echo $one['description']; ?></p>
                 <div class="row g-4 mb-4">
                     <div class="col-sm-6">
-                        <div class="d-flex align-item-center border-start border-5 border-primary px-3">
-                            <h5 class="text-primary me-3">Price</h5>
-                            <h5 class="text-dark"><?php echo $one['price']; ?>$</h5>
+                        <div class=" border-start border-5 border-primary px-3">
+                            <h6>Price: $ <?php echo $one['price']; ?></h5>
                         </div>
                     </div>
                 </div>
+                <form method="POST" action="add-cart.php?id=<?php echo $id; ?>">
+                    <input type="text" name="item_id" value="<?php echo $one['id']; ?>">
+                    <input type="text" name="name" value="<?php echo $one['name']; ?>">
+                    <input type="text" name="image" value="<?php echo $one['price']; ?>">
+                    <input type="text" name="price" value="<?php echo $one['image']; ?>">
+                    <button type="submit" name="submit" class="btn btn-primary py-3 px-5 mt-2"<?php if ($count > 0) { echo "disabled"; } ?>>Add Cart</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <?php require "../includes/footer.php" ?>
-
