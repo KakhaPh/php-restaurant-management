@@ -55,6 +55,13 @@ class App
         }
     }
 
+    public function validateCart($cartQuery) {
+        $row = $this->link->query($cartQuery);
+        $row->execute();
+        $count = $row->rowCount();
+        return $count;
+    }
+
     // Insert data into the database
     public function insert($query, $arr, $path)
     {
@@ -64,8 +71,7 @@ class App
             $insert_record = $this->link->prepare($query);
             $insert_record->execute($arr);
 
-            header("Location: $path");
-            exit;
+            echo "<script>window.location.href ='$path'</script>";
         }
     }
 
