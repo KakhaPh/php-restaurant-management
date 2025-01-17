@@ -41,12 +41,18 @@
                 <p class="mb-4"><?php echo $one['description']; ?></p>
                 <div class="row g-4 mb-4">
                     <div class="col-sm-6">
-                        <div class="d-flex align-item-center border-start border-5 border-primary px-3">
-                            <h5 class="text-primary me-3">Price</h5>
-                            <h5 class="text-dark"><?php echo $one['price']; ?>$</h5>
+                        <div class=" border-start border-5 border-primary px-3">
+                            <h6>Price: $ <?php echo $one['price']; ?></h5>
                         </div>
                     </div>
                 </div>
+                <form method="POST" action="add-cart.php?id=<?php echo $id; ?>">
+                    <input type="text" value="<?php echo $one['id']; ?>">
+                    <input type="text" value="<?php echo $one['name']; ?>">
+                    <input type="text" value="<?php echo $one['image']; ?>">
+                    <input type="text" value="<?php echo $one['price']; ?>">
+                    <a href="" class="btn btn-primary py-3 px-5 mt-2">Add Cart</a>
+                </form>
             </div>
         </div>
     </div>
