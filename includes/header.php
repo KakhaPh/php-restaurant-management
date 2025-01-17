@@ -1,8 +1,8 @@
 <?php
-    $app = new App;
-    $app->startingSession();
-    
-    define("baseUrl", "/");
+$app = new App;
+$app->startingSession();
+
+define("baseUrl", "/");
 
 ?>
 
@@ -43,11 +43,11 @@
 <body>
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
-        </div>
+        </div> -->
         <!-- Spinner End -->
 
 
@@ -76,19 +76,18 @@
                             </div>
                         </div>
                         <a href="contact.html" class="nav-item nav-link">Contact</a>
-                        <?php if(isset($_SESSION['username'])): ?>
+                        <?php if (isset($_SESSION['user_id'])) : ?>
                             <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><?php echo $_SESSION['username']?></a>
-                            <div class="dropdown-menu m-0 mx-4">
-                                <a href="booking.html" class="dropdown-item">Booking</a>
-                                <a href="team.html" class="dropdown-item">Our Team</a>
-                                <a href="<?php echo baseUrl; ?>auth/logout.php" class="dropdown-item">Log out</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><?php echo htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8'); ?></a>
+                                <div class="dropdown-menu m-0 mx-4">
+                                    <a href="<?php echo baseUrl; ?>auth/logout.php" class="dropdown-item">Log out</a>
+                                </div>
                             </div>
-                        </div>
                         <?php else : ?>
-                        <a href="<?php echo baseUrl; ?>auth/login.php" class="nav-item nav-link">Login</a>
-                        <a href="<?php echo baseUrl; ?>auth/register.php" class="nav-item nav-link">Register</a>
+                            <a href="<?php echo baseUrl; ?>auth/login.php" class="nav-item nav-link">Login</a>
+                            <a href="<?php echo baseUrl; ?>auth/register.php" class="nav-item nav-link">Register</a>
                         <?php endif; ?>
+
                     </div>
                     <a href="" class="btn btn-primary py-2 px-4">Book A Table</a>
                 </div>
