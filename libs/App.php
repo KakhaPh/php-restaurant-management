@@ -95,8 +95,7 @@ class App
         $delete_record = $this->link->query($query);
         $delete_record->execute();
 
-        header("Location: $path");
-        exit;
+        echo "<script>window.location.href ='$path'</script>";
     }
 
     // Validate the form
