@@ -73,10 +73,10 @@ if (isset($_GET['id'])) {
                     </div>
                 </div>
                 <form method="POST" action="add-cart.php?id=<?php echo $id; ?>">
-                    <input type="text" name="item_id" value="<?php echo $one['id']; ?>">
-                    <input type="text" name="name" value="<?php echo $one['name']; ?>">
-                    <input type="text" name="image" value="<?php echo $one['price']; ?>">
-                    <input type="text" name="price" value="<?php echo $one['image']; ?>">
+                    <input type="hidden" name="item_id" value="<?php echo $one['id']; ?>">
+                    <input type="hidden" name="name" value="<?php echo $one['name']; ?>">
+                    <input type="hidden" name="image" value="<?php echo $one['image']; ?>">
+                    <input type="hidden" name="price" value="<?php echo $one['price']; ?>">
                     <button type="submit" name="submit" class="btn btn-primary py-3 px-5 mt-2"<?php if ($count > 0) { echo "disabled"; } ?>>Add Cart</button>
                 </form>
             </div>
